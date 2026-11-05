@@ -1,0 +1,172 @@
+[
+  {
+    "source": "src/modules/products/products.types.ts",
+    "target": "src/features/products/products.types.ts",
+    "sha256": "18d1270227de9fa0789af7a670acd6482618687b5899d853b8af3aa92561a0f1"
+  },
+  {
+    "source": "src/modules/products/products.data.ts",
+    "target": "src/features/products/products.data.ts",
+    "sha256": "91658bd19ce39d83703470635a8e07871087ca50e8e9f8c442c258f991dfde44"
+  },
+  {
+    "source": "src/modules/products/products.logic.ts",
+    "target": "src/features/products/products.logic.ts",
+    "sha256": "dac21525201cf0232d9085b67d718c64c24011596f677aa75776eb8735d031e2"
+  },
+  {
+    "source": "src/modules/products/products.api.ts",
+    "target": "src/features/products/products.api.ts",
+    "sha256": "dcb15e3b60137e3246287f6010e48e4bbbbb2dfc19340c2463395f43f6c1f0f5"
+  },
+  {
+    "source": "src/modules/cart/cart.types.ts",
+    "target": "src/features/cart/cart.types.ts",
+    "sha256": "e51971af21658e3f20902d52a3bfbdc19ca7fd4cac1938209629bb8ea7dd9a5b"
+  },
+  {
+    "source": "src/modules/cart/cart.logic.ts",
+    "target": "src/features/cart/cart.logic.ts",
+    "sha256": "352aa63c8eaff6a295b56fa651a5b4e68448906ab569357e4296656cdac8a8e5"
+  },
+  {
+    "source": "src/modules/cart/cart.state.ts",
+    "target": "src/features/cart/cart.state.ts",
+    "sha256": "9add0e86f724b9a3973cd79b97029bf0ad2d22a27b0767012ff6cf81a45635d1"
+  },
+  {
+    "source": "src/modules/i18n/i18n.ts",
+    "target": "src/features/i18n/i18n.ts",
+    "sha256": "59dfac4c268a953152d9da33b732f489ad5de1cb2504b2399f816928ce7e050a"
+  },
+  {
+    "source": "src/modules/i18n/i18n.state.ts",
+    "target": "src/features/i18n/i18n.state.ts",
+    "sha256": "c4b50e45ec52278d6d02783efeda6b7b04b44a76a50f0ed7c25b5f6c9f15d5ba"
+  },
+  {
+    "source": "src/shared/storage.types.ts",
+    "target": "src/shared/storage.types.ts",
+    "sha256": "cca6ae9bdb91c2b8ba03ed01cb2d6b083397aa7dfe10d85853b77c2bcd48e8f2"
+  },
+  {
+    "source": "src/shared/api/client.ts",
+    "target": "src/shared/api/client.ts",
+    "sha256": "4f08a1f71cff30efa725ac74f6c5240a6dfcfdb0f8a4d2dab1d162030accdef5"
+  },
+  {
+    "source": "src/style.css",
+    "target": "src/styles/storefront.css",
+    "sha256": "3cbf5f67131e6d87d47997ef7dd480841aed887bcf7bcbae7d48fdeb40c6e4a8"
+  },
+  {
+    "source": "AGENTS.md",
+    "target": "docs/original/AGENTS.md",
+    "sha256": "8777fe2036f86b70a802c9727ab7029bdb23e10ba30ac35584fbd2c6fe0eb514"
+  },
+  {
+    "source": "DESIGN.md",
+    "target": "docs/original/DESIGN.md",
+    "sha256": "eb982be0438c244665fd636001517de96994f583121c0e686adcb334e11e1175"
+  },
+  {
+    "source": "README.md",
+    "target": "docs/original/README.md",
+    "sha256": "a84dbaf0dc19cfe444f7f8811ad101d94fc56437b666f1a4022b73eb8c2b365a"
+  },
+  {
+    "source": "LOCALIZATION.md",
+    "target": "docs/original/LOCALIZATION.md",
+    "sha256": "af4e6d48b9c92cc671290f6d1b5beb71f3a4bc31a852c1c4e7f5ebcd3f2d7e08"
+  },
+  {
+    "source": "public/images/brand/README.md",
+    "target": "public/images/brand/README.md",
+    "sha256": "6375373075bea55f39f8d9f9723a9f08149d6978022f36bdf3bf2e41c961a3c6"
+  },
+  {
+    "source": "public/images/brand/yaninda-campaign.jpg",
+    "target": "public/images/brand/yaninda-campaign.jpg",
+    "sha256": "4e5039eb4ed8b685c4dc6fa173ea06d48d8d7194b339e2e1e3e0e2cb9ec22714"
+  },
+  {
+    "source": "public/images/brand/yaninda-selected-original.png",
+    "target": "public/images/brand/yaninda-selected-original.png",
+    "sha256": "8bfc05c94a817dbda89de892fc5a8ab28f7a263dda8b906573a695d5488bd4c0"
+  },
+  {
+    "source": "public/images/products/canvas-backpack.jpg",
+    "target": "public/images/products/canvas-backpack.jpg",
+    "sha256": "e0ff14d16e5d9d2029ae2d87e00180b69e93fe58fe65bf410b3fa69855af7895"
+  },
+  {
+    "source": "public/images/products/fallback.svg",
+    "target": "public/images/products/fallback.svg",
+    "sha256": "fd484899b2336f0ad8bb7b8858fe4635e067a03af77ffde47117c24fc1cb8196"
+  },
+  {
+    "source": "public/images/products/leather-belt.jpg",
+    "target": "public/images/products/leather-belt.jpg",
+    "sha256": "12da3be895844ce7d08fe5a17d7a14a4c0a73e8886f326eb210989df2bf5b2d5"
+  },
+  {
+    "source": "public/images/products/leather-tote-bag.jpg",
+    "target": "public/images/products/leather-tote-bag.jpg",
+    "sha256": "f6ffd7aa1ae2a292a0cbdd5f19b14c44ef615a7191c6f4e3895dab6638f253a8"
+  },
+  {
+    "source": "public/images/products/mini-crossbody-bag.jpg",
+    "target": "public/images/products/mini-crossbody-bag.jpg",
+    "sha256": "5f503a38c36fade3584808e2692ca2f9453564828dbb8436f6068e491854d1ca"
+  },
+  {
+    "source": "public/images/products/rain-boots.jpg",
+    "target": "public/images/products/rain-boots.jpg",
+    "sha256": "4702560b5f4dfb8c7231d96e2f95cbe2d929a416979c21c17be0a6d9c8e1f7f3"
+  },
+  {
+    "source": "public/images/products/README.md",
+    "target": "public/images/products/README.md",
+    "sha256": "9f66a37f7215e2cedc839a86e40d1d61685236e8be42f7e7a0d2b4bd5d800899"
+  },
+  {
+    "source": "public/images/products/running-shoes.jpg",
+    "target": "public/images/products/running-shoes.jpg",
+    "sha256": "b62390e2181dfaee255e39ff1b6400fa64836db1706cc814ee2a43dc600a39d8"
+  },
+  {
+    "source": "public/images/products/silver-watch.jpg",
+    "target": "public/images/products/silver-watch.jpg",
+    "sha256": "c45938eef7102b4dc8f9e9b87aebdd17067843c042263837fef1fc9209c404b7"
+  },
+  {
+    "source": "public/images/products/suede-loafers.jpg",
+    "target": "public/images/products/suede-loafers.jpg",
+    "sha256": "754b23cce51d9e9f5f17e708a84810a4620bfbabbbb1c74aa7149d36736c957c"
+  },
+  {
+    "source": "public/images/products/sunglasses.jpg",
+    "target": "public/images/products/sunglasses.jpg",
+    "sha256": "52a9ef6480178ac350495382845d7392cee569540fef9d20cf94f8faf05503e3"
+  },
+  {
+    "source": "public/images/products/travel-duffel-bag.jpg",
+    "target": "public/images/products/travel-duffel-bag.jpg",
+    "sha256": "bc5b7c948fcfdd1e654377c0f0f6740b5b78e43068f7957a5838f39c104ea550"
+  },
+  {
+    "source": "public/images/products/white-sneakers.jpg",
+    "target": "public/images/products/white-sneakers.jpg",
+    "sha256": "de0d67c4c232f1fd71ce27717b1fa8af9a4b980a17f43cac55458b524b519988"
+  },
+  {
+    "source": "public/images/products/wool-scarf.jpg",
+    "target": "public/images/products/wool-scarf.jpg",
+    "sha256": "3eb4c7ef52bb457894b1e5326d2ec50f410906153d3996d4027798ce96e1acd5"
+  },
+  {
+    "source": "public/yaninda.svg",
+    "target": "public/yaninda.svg",
+    "sha256": "e1a8cfbc585523ea8f072db0369b461e17d776562e3149216ad6f3d3fb41aa04"
+  }
+]
