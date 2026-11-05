@@ -7,7 +7,13 @@ export interface ToastProps {
 
 export function Toast({ notice }: ToastProps) {
   const { t } = useTranslation()
-  return <div className={notice ? 'toast visible' : 'toast'} role="status" aria-live="polite">
-    {notice ? t(notice) : ''}
-  </div>
+  return (
+    <div
+      className={notice ? 'toast visible' : 'toast'}
+      role="status"
+      aria-live="polite"
+    >
+      {notice ? t(notice) : ''}
+    </div>
+  )
 }

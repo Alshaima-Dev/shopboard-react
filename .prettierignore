@@ -1,0 +1,19 @@
+node_modules/
+dist/
+dist-ssr/
+coverage/
+.git/
+.cache/
+tmp/
+temp/
+**/*.tsbuildinfo
+package-lock.json
+.env
+.env.*
+
+# Preserve existing image assets and archived source documentation.
+public/
+docs/original/
+
+# Official skill copies are byte-verified against their upstream commit.
+.agents/skills/

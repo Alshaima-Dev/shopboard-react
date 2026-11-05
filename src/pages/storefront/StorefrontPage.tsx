@@ -13,11 +13,31 @@ import { CartDialog } from '../../features/cart/components/CartDialog.tsx'
 import { useToast } from '../../shared/ui/useToast.ts'
 import { Toast } from '../../shared/ui/Toast.tsx'
 export function StorefrontPage() {
- const catalog = useProductCatalog()
- const { language, setLanguage } = useLanguage()
- const toast = useToast()
- const cart = useCart(catalog.catalog, toast.notify)
- return <div id="app"><AnnouncementBar /><StoreHeader language={language} setLanguage={setLanguage} affordableOnly={catalog.affordableOnly} selectMode={catalog.selectMode} count={cart.count} onOpenCart={cart.open} />
- <main><Hero /><Benefits /><ProductCatalog catalog={catalog} onAdd={cart.addItem} /><SignupForm onSuccess={() => toast.notify('signupSuccess')} /><Philosophy /></main>
- <StoreFooter /><CartDialog cart={cart} /><Toast notice={toast.notice} /></div>
+  const catalog = useProductCatalog()
+  const { language, setLanguage } = useLanguage()
+  const toast = useToast()
+  const cart = useCart(catalog.catalog, toast.notify)
+  return (
+    <div id="app">
+      <AnnouncementBar />
+      <StoreHeader
+        language={language}
+        setLanguage={setLanguage}
+        affordableOnly={catalog.affordableOnly}
+        selectMode={catalog.selectMode}
+        count={cart.count}
+        onOpenCart={cart.open}
+      />
+      <main>
+        <Hero />
+        <Benefits />
+        <ProductCatalog catalog={catalog} onAdd={cart.addItem} />
+        <SignupForm onSuccess={() => toast.notify('signupSuccess')} />
+        <Philosophy />
+      </main>
+      <StoreFooter />
+      <CartDialog cart={cart} />
+      <Toast notice={toast.notice} />
+    </div>
+  )
 }

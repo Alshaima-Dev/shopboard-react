@@ -7,4 +7,7 @@ export interface LanguageContextValue {
 }
 
 // Standalone presentation components default to English; the app has one owner.
-export const LanguageContext = createContext<LanguageContextValue>({ language: 'en', setLanguage: () => {} })
+export const LanguageContext = createContext<LanguageContextValue>({
+  language: 'en',
+  setLanguage: () => {},
+})

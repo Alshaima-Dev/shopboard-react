@@ -62,4 +62,3 @@ test('hero, promotion, announcement and footer use the exact approved copy', () 
     assert.doesNotMatch(Object.values(m).join('\n'), outdatedCopy)
   }
 })
-

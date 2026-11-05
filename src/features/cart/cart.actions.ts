@@ -7,10 +7,27 @@ export function createCartActions(
   notify: (key: MessageKey) => void,
 ) {
   return {
-    addItem(id: number) { store.addItem(id); refresh(); notify('added') },
-    changeQuantity(id: number, step: number) { store.changeQuantity(id, step); refresh() },
-    removeItem(id: number) { store.removeItem(id); refresh(); notify('removed') },
-    clearCart() { store.clearCart(); refresh(); notify('cleared') },
-    checkout() { notify('checkoutMessage') },
+    addItem(id: number) {
+      store.addItem(id)
+      refresh()
+      notify('added')
+    },
+    changeQuantity(id: number, step: number) {
+      store.changeQuantity(id, step)
+      refresh()
+    },
+    removeItem(id: number) {
+      store.removeItem(id)
+      refresh()
+      notify('removed')
+    },
+    clearCart() {
+      store.clearCart()
+      refresh()
+      notify('cleared')
+    },
+    checkout() {
+      notify('checkoutMessage')
+    },
   }
 }

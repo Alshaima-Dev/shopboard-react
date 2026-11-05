@@ -8,7 +8,7 @@ The entire directory `D:/core istanbul/procit-1` and all of its subdirectories, 
 
 ## Current task authorization
 
-Migration Phases 1–5 are completed. The project is now working through the teacher's React Task 4 requirements, one explicitly approved task at a time. Implement only the scope the user has explicitly approved; completion of one task does not authorize the next. Preserve the completed functionality, silent API fallback, CSS/assets, documentation, and existing .git directory unless a specific change is explicitly approved. Installing packages, downloading resources, deleting files, performing repository cleanup, committing, or pushing each requires the user's explicit approval before proceeding. Never send, store, or log registration credentials.
+Migration Phases 1–5 are completed. The project is now working through the teacher's React Task 4 requirements within the user's explicitly approved scope. The current assignment work authorizes observable API loading, failure, empty-response, and retry feedback while preserving the local fallback and existing controls. Completion of this work does not authorize further tasks. Preserve completed functionality, CSS/assets, documentation, and the existing .git directory unless a specific change is explicitly approved. Installing packages, downloading resources, deleting files, performing destructive repository cleanup, committing, or pushing each requires the user's explicit approval before proceeding. Never send, store, or log registration credentials.
 
 ## Coding rules
 
@@ -22,6 +22,10 @@ Migration Phases 1–5 are completed. The project is now working through the tea
 - Preserve exact design, CSS cascade, branding, fonts, translations, image fallbacks, notification behavior, navigation, cart focus/confirmation, and demo checkout/sign-up. Future UI uses semantic HTML, labeled inputs, mobile-first min-width queries, logical properties, no !important, reduced motion, and RTL/LTR support.
 - Tests must tolerate valid whitespace and line wrapping. Retain regression assertions. Verify the exact reported URL before claiming browser fixes.
 - Explain changes and run typecheck, tests, lint, and build. Do not install packages without authorization.
+- Keep visible control labels and accessible labels on the same translation key. The sort control previously displayed the price translation while its accessible label described sorting; verify all three languages when changing a label.
+- Preserve official skill files byte-for-byte and exclude them from project-wide formatting. Installed upstream Markdown must not be rewritten by the project's Prettier settings; verify it against `.agents/skills/UPSTREAM.json`.
+- Update current README and DESIGN descriptions when behavior changes. Earlier documentation still described sign-up as inactive and API failures as silent after implementation changed; label migration reports as historical rather than treating them as current status.
+- Separate source evidence, proposed fixes, and browser observations in verification reports. The Debug Lab source is inspectable, but its source map is unavailable and browser/DevTools checks have not been performed; never promote source findings to manual test results.
 
 ## Original references
 

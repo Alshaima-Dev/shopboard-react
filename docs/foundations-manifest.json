@@ -82,7 +82,7 @@
   {
     "source": "public/images/brand/README.md",
     "target": "public/images/brand/README.md",
-    "sha256": "6375373075bea55f39f8d9f9723a9f08149d6978022f36bdf3bf2e41c961a3c6"
+    "sha256": "b15a3ba3bd7fcc830dee71bd8b8a607a8923564848d1a2a9978a81a9c75dd1cf"
   },
   {
     "source": "public/images/brand/yaninda-campaign.jpg",
@@ -127,7 +127,7 @@
   {
     "source": "public/images/products/README.md",
     "target": "public/images/products/README.md",
-    "sha256": "9f66a37f7215e2cedc839a86e40d1d61685236e8be42f7e7a0d2b4bd5d800899"
+    "sha256": "fc5581d5894142a29bf8964f179c268477eb3b79341cd36c9c9e78fb174b22b5"
   },
   {
     "source": "public/images/products/running-shoes.jpg",
