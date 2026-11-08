@@ -16,8 +16,8 @@ export function ProductDetails({ state, onRetry, onAdd }: ProductDetailsProps) {
   const text = routeMessages[language]
   if (state.status !== 'ready')
     return (
-      <section className="wrap route-page">
-        <h1>{text.shop}</h1>
+      <section className="wrap route-page state-page">
+        <h1>{text.detailsTitle}</h1>
         <p role={state.status === 'error' ? 'alert' : 'status'}>
           {state.status === 'loading'
             ? text.loading
@@ -25,18 +25,25 @@ export function ProductDetails({ state, onRetry, onAdd }: ProductDetailsProps) {
               ? text.missing
               : text.error}
         </p>
-        {state.status === 'error' && (
-          <button className="primary" type="button" onClick={onRetry}>
-            {text.retry}
-          </button>
-        )}
-        <Link to="/shop">{text.back}</Link>
+        {state.status !== 'loading' && <p>{text.detailsHelp}</p>}
+        <div className="boundary-actions">
+          <Link className="primary" to="/">
+            {text.back}
+          </Link>
+          {state.status === 'error' && (
+            <button className="secondary" type="button" onClick={onRetry}>
+              {text.retry}
+            </button>
+          )}
+        </div>
       </section>
     )
   const copy = textFor(state.product)
   return (
     <section className="wrap route-page">
-      <Link to="/shop">{text.back}</Link>
+      <Link className="text-link" to="/shop">
+        {text.shop}
+      </Link>
       <div className="product-details">
         <ProductImage product={state.product} />
         <div>

@@ -13,12 +13,12 @@ npm run dev -- --port 5175 --strictPort
 
 Open the exact Local URL printed by Vite, normally `http://localhost:5175`. Another port can be serving a different project. On Windows PowerShell, use `npm.cmd` if execution policy blocks `npm`.
 
-`npm ci` installs the locked dependencies and the `prepare` script configures Husky when a Git checkout is available. The pre-commit hook runs `npm run lint:staged`; it checks staged code with Oxlint (zero warnings) and Prettier, without automatically formatting it. No test commit is needed to use the normal check commands.
+`npm ci` installs the locked dependencies and the `prepare` script configures Husky when a Git checkout is available. The pre-commit hook runs `npm run lint:staged`; it checks staged code with Oxlint (zero warnings, including explicit TypeScript `any` rejection) and Prettier, without automatically formatting it. No test commit is needed to use the normal check commands.
 
 ## Behavior and API states
 
 - The 12 local products render immediately. A mount effect requests the existing `/api/products` endpoint; its base URL and five-second timeout are centralized in `src/shared/api/client.ts`.
-- Only complete, validated responses with the original stable IDs replace the catalog. The existing API adapter remains unchanged.
+- Only complete, validated responses with the original stable IDs replace the catalog. Collection and detail responses reuse the existing product validator.
 - Loading is announced while the current collection stays usable. HTTP, offline, timeout, malformed, duplicate-ID, and incomplete responses show a translated failure message with **Try again**.
 - A successful HTTP response containing an empty JSON array shows a distinct empty-API message and retry action. It retains the current catalog, matching the stable-ID/fallback contract; it does not erase saved cart details. A genuinely empty catalog has its own empty-collection message. A filter with no matching products uses the original no-match message.
 - Failed refreshes retain the local or last valid collection. Retry preserves query, category, sorting, affordable mode, cart quantities, and language. StrictMode effect replay shares the in-flight request; cleaned-up subscribers ignore late results.
@@ -45,7 +45,9 @@ React Router 8 provides browser-history navigation. The persistent layout includ
 | `/checkout`     | Validated demo form, editable shared bag, and local confirmation |
 | Unmatched URL   | Accessible 404 page with a shop link                             |
 
-**API compatibility:** on 2026-11-08 the configured backend served `/api/products`, but `/api/products/1` returned Vercel route-not-found. With user approval, `product-details.api.ts` fetches the existing API catalog through the original validator and resolves the requested ID. It does not substitute local data on details failure and is not a claim that a single-resource endpoint exists. Details requests use the existing timeout, abort on route cleanup, ignore stale responses, and merge accepted details into the layout catalog without resetting controls or cart quantities.
+**Product details:** the only API origin is `https://shopboard-api-nu.vercel.app`. Details make a genuine `GET /api/products/:id` request, validate the returned product and matching ID, and distinguish HTTP 404 from other failures. They do not fetch the collection or substitute local products. Requests retain the five-second timeout, abort on route cleanup, ignore stale responses, and merge accepted details into the layout catalog without resetting controls or cart quantities.
+
+**API scenarios:** set `VITE_API_SCENARIO` before starting Vite to `normal` (default), `delay`, `fail`, or `empty`. Restart Vite after changing it. Unknown values use normal access. The shared client prefixes both collection and detail paths with `/delay/3000`, `/fail/500`, or `/empty`, keeping the same origin: for example, `https://shopboard-api-nu.vercel.app/delay/3000/api/products/1`. Empty collections retain the local fallback with empty-response feedback; a detail HTTP 404 shows the missing-product state. No testing endpoint or teacher API replaces the configured origin.
 
 The shared layout retains catalog controls across page navigation, while CartProvider stays above all routes. Refresh restores saved cart quantities and language; catalog filters remain session state. Production hosting must serve `index.html` for application paths such as `/shop` and `/products/1` (SPA fallback). Vite dev/preview supplies this locally; no production deployment or host rewrite configuration is claimed. GitHub repository publication alone does not configure browser-history hosting.
 
@@ -125,41 +127,41 @@ App()
                 |   +-- ErrorBoundary(children, fallback)
                 |       +-- BoundaryFallback(scope, onRetry) [on page failure]
                 |       +-- Suspense -> matched page [normally]
-                |   +-- StorefrontPage() [/]
-                |   |   +-- Hero() -> BrandMark(), CampaignImage()
-                |   |   +-- Benefits() -> Icon(name, size?) x 4
-                |   |   +-- ProductCatalog(catalog, onAdd?)
-                |   |   |   +-- Icon(name, size?)
-                |   |   |   +-- ProductCard(product, onAdd?) x visible products
-                |   |   |       +-- ProductImage(product, children?, className?)
-                |   |   |           +-- ProductPhoto(product)
-                |   |   |           +-- Icon(name, size?) in add-button children
-                |   |   +-- SignupForm(onSuccess)
-                |   |   +-- Philosophy() -> BrandMark()
-                |   +-- ShopPage() [/shop] -> ProductCatalog(catalog, onAdd?)
-                |   +-- AboutPage() [/about] -> Philosophy()
-                |   +-- ShippingPage() [/shipping]
-                |   +-- SignupPage() [/signup] -> SignupForm(onSuccess)
-                |   +-- ProductDetailsPage() [/products/:id]
-                |   |   +-- ProductDetails(state, onRetry, onAdd)
-                |   |       +-- ProductImage(product, children?, className?) -> ProductPhoto(product)
-                |   +-- CheckoutPage() [/checkout]
-                |   |   +-- CheckoutForm(cart, catalog, onComplete)
-                |   |   |   +-- Input(type?, className?, ...nativeInputProps) x 7
-                |   |   |   +-- Button(variant?, className?, ...nativeButtonProps)
-                |   |   +-- CheckoutSummary(cart) -> CartItem(product, quantity, changeQuantity, removeItem)
-                |   |   +-- CheckoutSuccess(receipt, onRestart) [success replaces the form/summary]
-                |   |       +-- Button(variant?, className?, ...nativeButtonProps)
-                |   +-- NotFoundPage() [unmatched paths]
+                |           +-- StorefrontPage() [/]
+                |           |   +-- Hero() -> BrandMark(), CampaignImage()
+                |           |   +-- Benefits() -> Icon(name, size?) x 4
+                |           |   +-- ProductCatalog(catalog, onAdd?)
+                |           |   |   +-- Icon(name, size?)
+                |           |   |   +-- ProductCard(product, onAdd?) x visible products
+                |           |   |       +-- ProductImage(product, children?, className?)
+                |           |   |           +-- ProductPhoto(product)
+                |           |   |           +-- Icon(name, size?) in add-button children
+                |           |   +-- SignupForm(onSuccess)
+                |           |   +-- Philosophy() -> BrandMark()
+                |           +-- ShopPage() [/shop] -> ProductCatalog(catalog, onAdd?)
+                |           +-- AboutPage() [/about] -> Philosophy()
+                |           +-- ShippingPage() [/shipping]
+                |           +-- SignupPage() [/signup] -> SignupForm(onSuccess)
+                |           +-- ProductDetailsPage() [/products/:id]
+                |           |   +-- ProductDetails(state, onRetry, onAdd)
+                |           |       +-- ProductImage(product, children?, className?) -> ProductPhoto(product)
+                |           +-- CheckoutPage() [/checkout]
+                |           |   +-- CheckoutForm(cart, catalog, onComplete)
+                |           |   |   +-- Input(type?, className?, ...nativeInputProps) x 7
+                |           |   |   +-- Button(variant?, className?, ...nativeButtonProps)
+                |           |   +-- CheckoutSummary(cart) -> CartItem(product, quantity, changeQuantity, removeItem)
+                |           |   +-- CheckoutSuccess(receipt, onRestart) [success replaces the form/summary]
+                |           |       +-- Button(variant?, className?, ...nativeButtonProps)
+                |           +-- NotFoundPage() [unmatched paths]
                 +-- StoreFooter() -> BrandMark()
                 +-- ErrorBoundary(children, fallback) [separate cart recovery]
                 |   +-- BoundaryFallback(scope, onRetry) [on dialog failure]
                 |   +-- CartDialog(cart)
-                |   +-- Icon(name, size?)
-                |   +-- CartItem(product, quantity, changeQuantity, removeItem) x cart items
-                |   |   +-- ProductImage(product, children?, className?) -> ProductPhoto(product)
-                |   |   +-- Icon(name, size?) x 2
-                |   +-- CartSummary(cart)
+                |       +-- Icon(name, size?)
+                |       +-- CartItem(product, quantity, changeQuantity, removeItem) x cart items
+                |       |   +-- ProductImage(product, children?, className?) -> ProductPhoto(product)
+                |       |   +-- Icon(name, size?) x 2
+                |       +-- CartSummary(cart)
                 +-- Toast(notice)
 ```
 
@@ -257,3 +259,26 @@ The project has no imported Vite logo, counter, or starter stylesheet. `docs/ori
 - Verify cart reload persistence, modal tab/focus recovery, Escape/backdrop closure, notifications, native form validation, and language changes during use.
 - Verify the RTL mobile control fix for the user-confirmed Arabic sort truncation: category and sort use full-width rows below 701px. Test 320/375/390px plus the 701px desktop transition, all sort options, and native option menus. LTR layout retains the existing columns.
 - Complete the Debug Lab evidence: record the exact cart failure and investigate the saved-heart issue that was not reproduced. Keep proposed fixes separate from applied repairs and before/after retests; none have been performed.
+
+## Storefront visual refinement
+
+The collection page reuses ProductCatalog with a single h1 introduction. Shipping
+uses two information cards and a separate availability note. Shared footer grid
+areas explicitly include navigation, and the flex shell keeps short pages filled
+without positioning the footer over content. The original stylesheet, catalog
+and all source images remain intact; refinements live in the existing override
+stylesheet.
+
+Initial mounting no longer focuses main. Route changes still move focus to main,
+and the skip link, keyboard outlines and recovery heading focus remain available.
+Arabic navigation follows RTL; Arabic headings use upright Noto Sans Arabic with
+comfortable leading, and narrow catalog controls occupy full rows. English,
+Arabic and Turkish customer messages use review-oriented copy while clearly
+stating that accounts, online orders, payments and delivery are unavailable.
+Recovery states offer a primary Home link to / and retain applicable retry actions.
+The interface dictionary's preservation hash was intentionally updated for this
+approved copy change; other preserved source hashes were retained.
+
+Verification uses automated checks and local headless Chrome. Responsive browser
+checks do not replace phone hardware, screen-reader testing, or native mobile
+select/keyboard behavior.

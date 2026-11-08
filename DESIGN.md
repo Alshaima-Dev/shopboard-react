@@ -55,3 +55,15 @@ Visible labels, native form constraints, focus-visible styles, reduced-motion ha
 ## Verification limits
 
 The original stylesheet remains unchanged. `src/styles/storefront-overrides.css`, imported after it, gives RTL category and sort fields full-width rows below 701px to address user-confirmed Arabic sort truncation at 320px. From 701px, the fields return to their existing desktop columns; LTR layout is unchanged. Automated rendered-output tests cannot establish pixel parity or native mobile select behavior. Visual confirmation at 320px, 375px, and 390px, desktop/mobile screenshots, actual font loading, keyboard focus, and real-device checks remain manual work.
+
+## Shared page refinement
+
+The existing burgundy, ivory, serif and Arabic typography remain the visual
+foundation. The collection introduction, shipping information cards and recovery
+panels now share measured spacing, logical alignment, rounded borders and clear
+actions. Footer navigation has an explicit grid area on every route; a flex
+application shell keeps the footer below short content without fixed positioning.
+The initial main-region autofocus was removed while route-change focus, skip-link
+navigation and visible keyboard indicators remain. Arabic text uses upright
+headings, natural RTL alignment and wider stacked controls on small screens.
+Source campaign/product artwork and the original stylesheet are unchanged.

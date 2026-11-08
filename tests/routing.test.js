@@ -5,6 +5,9 @@ import { renderToReadableStream, renderToStaticMarkup } from 'react-dom/server'
 import { MemoryRouter } from 'react-router'
 import { createServer } from 'vite'
 import { products } from '../src/features/products/products.data.ts'
+import { messages } from '../src/features/i18n/i18n.ts'
+import { checkoutMessages } from '../src/features/i18n/checkout.messages.ts'
+import { catalogMessages } from '../src/features/i18n/catalog.messages.ts'
 import { routeMessages } from '../src/features/i18n/routes.messages.ts'
 
 Object.defineProperty(globalThis, 'localStorage', {
@@ -16,7 +19,13 @@ const server = await createServer({
   server: { middlewareMode: true, hmr: false, ws: false },
   appType: 'custom',
 })
-let App, ProductDetails, LanguageProvider, createLanguageStore, CheckoutSuccess
+let App,
+  ProductDetails,
+  LanguageProvider,
+  createLanguageStore,
+  CheckoutSuccess,
+  ShippingPage,
+  NotFoundPage
 const pages = new Map()
 try {
   ;({ App } = await server.ssrLoadModule('/src/App.tsx'))
@@ -31,6 +40,12 @@ try {
   ))
   ;({ CheckoutSuccess } = await server.ssrLoadModule(
     '/src/features/checkout/components/CheckoutSuccess.tsx',
+  ))
+  ;({ ShippingPage } = await server.ssrLoadModule(
+    '/src/pages/shipping/ShippingPage.tsx',
+  ))
+  ;({ NotFoundPage } = await server.ssrLoadModule(
+    '/src/pages/not-found/NotFoundPage.tsx',
   ))
   for (const path of [
     '/',
@@ -187,5 +202,44 @@ test('product details loading, missing, error/retry and ready content translate 
   for (const language of ['ar', 'tr']) {
     assert.deepEqual(Object.keys(routeMessages[language]), keys)
     for (const key of keys) assert.ok(routeMessages[language][key].trim())
+  }
+})
+
+test('collection has one meaningful heading and shipping and missing pages render in every language', () => {
+  assert.match(pages.get('/shop'), /<h1[^>]*id="shop-title"/)
+  assert.ok(pages.get('/shop').includes(messages.en.shopTitle))
+  assert.match(pages.get('/shop'), /collection-intro/)
+  for (const language of ['en', 'ar', 'tr']) {
+    const store = createLanguageStore({ getItem: () => language, setItem() {} })
+    const render = (Component) =>
+      renderToStaticMarkup(
+        createElement(
+          MemoryRouter,
+          null,
+          createElement(LanguageProvider, { store }, createElement(Component)),
+        ),
+      )
+    const shipping = render(ShippingPage)
+    assert.equal([...shipping.matchAll(/class="information-card"/g)].length, 2)
+    assert.ok(shipping.includes(routeMessages[language].shippingCurrency))
+    assert.ok(shipping.includes(routeMessages[language].shippingDemo))
+    assert.match(render(NotFoundPage), /class="primary"[^>]*href="\/"/)
+  }
+})
+
+test('customer copy avoids developer terminology and retains honest capability limits', () => {
+  for (const language of ['en', 'ar', 'tr']) {
+    const strings = [
+      ...Object.values(messages[language]),
+      ...Object.values(catalogMessages[language]),
+      ...Object.values(checkoutMessages[language]).filter(
+        (value) => typeof value === 'string',
+      ),
+    ]
+    for (const value of strings)
+      assert.doesNotMatch(value, /\b(?:demo|prototype|API)\b|تجريبي|تجريبية/i)
+    assert.ok(messages[language].signupNote.length > 30)
+    assert.ok(checkoutMessages[language].demo.length > 50)
+    for (const value of strings) assert.doesNotMatch(value, /\?{2,}|\uFFFD/)
   }
 })

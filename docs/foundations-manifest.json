@@ -17,7 +17,7 @@
   {
     "source": "src/modules/products/products.api.ts",
     "target": "src/features/products/products.api.ts",
-    "sha256": "dcb15e3b60137e3246287f6010e48e4bbbbb2dfc19340c2463395f43f6c1f0f5"
+    "sha256": "e86a9cee6de5f1676798f0b0187968e029e48496843fd9c30f67a856a2bae647"
   },
   {
     "source": "src/modules/cart/cart.types.ts",
@@ -37,7 +37,7 @@
   {
     "source": "src/modules/i18n/i18n.ts",
     "target": "src/features/i18n/i18n.ts",
-    "sha256": "59dfac4c268a953152d9da33b732f489ad5de1cb2504b2399f816928ce7e050a"
+    "sha256": "4a9fe64a4802c173815766f46abfb4e23b15fbb3539b2b84ed94b9b86f4dfc24"
   },
   {
     "source": "src/modules/i18n/i18n.state.ts",
@@ -52,7 +52,7 @@
   {
     "source": "src/shared/api/client.ts",
     "target": "src/shared/api/client.ts",
-    "sha256": "4f08a1f71cff30efa725ac74f6c5240a6dfcfdb0f8a4d2dab1d162030accdef5"
+    "sha256": "67aea950924466c967bbae6d8c0e3612cbf15433a3041d7d4a3586eb75f8cbc2"
   },
   {
     "source": "src/style.css",

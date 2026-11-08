@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { useStorefrontContext } from '../layout/storefront.context.ts'
 import { useCart } from '../../features/cart/useCart.ts'
 import { useLanguage } from '../../features/i18n/useLanguage.ts'
+import { routeMessages } from '../../features/i18n/routes.messages.ts'
 import { checkoutMessages } from '../../features/i18n/checkout.messages.ts'
 import { CheckoutForm } from '../../features/checkout/components/CheckoutForm.tsx'
 import { CheckoutSummary } from '../../features/checkout/components/CheckoutSummary.tsx'
@@ -21,11 +22,11 @@ export function CheckoutPage() {
     )
   if (!cart.items.length)
     return (
-      <section className="wrap route-page">
+      <section className="wrap route-page state-page">
         <h1>{text.title}</h1>
         <p role="status">{text.empty}</p>
-        <Link className="primary" to="/shop">
-          {text.back}
+        <Link className="primary" to="/">
+          {routeMessages[language].back}
         </Link>
       </section>
     )

@@ -25,8 +25,8 @@ interface CheckoutMessages {
 
 export const checkoutMessages: Record<Language, CheckoutMessages> = {
   en: {
-    title: 'Demo checkout',
-    demo: 'Try checkout with fictional contact and delivery details. Nothing is sent or saved. No order, payment, or delivery will be created. Do not enter payment-card details.',
+    title: 'Review your selection',
+    demo: 'Online ordering is not available yet. Use sample details to review the form; nothing is sent or saved, and no payment is collected.',
     formTitle: 'Contact and delivery details',
     fields: {
       fullName: 'Full name',
@@ -39,16 +39,16 @@ export const checkoutMessages: Record<Language, CheckoutMessages> = {
     },
     requiredNote: 'All fields except phone are required.',
     acknowledge:
-      'I understand that this is a demo and no order or payment will be processed.',
-    submit: 'Confirm demo checkout',
-    submitting: 'Validating demo details…',
+      'I understand that reviewing these details does not place an order or take payment.',
+    submit: 'Review details',
+    submitting: 'Checking your details…',
     empty: 'Your bag is empty. Add a product before starting checkout.',
-    successTitle: 'Demo checkout complete',
+    successTitle: 'Your details have been reviewed',
     success:
-      'Your demo details passed validation. No order was placed, no payment was taken, and no delivery was arranged. Your bag is unchanged. Contact and address details were not sent or saved.',
-    summary: 'Demo summary',
+      'Your details passed the checks. No order was placed, no payment was taken, and no delivery was arranged. Your bag is unchanged; contact and address details were not sent or saved.',
+    summary: 'Your selection',
     items: 'Items reviewed',
-    restart: 'Start another demo',
+    restart: 'Review again',
     back: 'Back to shop',
     errors: {
       name: 'Enter a name with at least two characters.',
@@ -59,13 +59,13 @@ export const checkoutMessages: Record<Language, CheckoutMessages> = {
       required: 'Complete this field.',
       country: 'Enter a country with at least two characters.',
       tooLong: 'This value is too long. Please shorten it.',
-      demoRequired: 'Confirm that you understand this is a demo.',
+      demoRequired: 'Confirm that no order or payment will be processed.',
       invalid: 'Check this field and try again.',
     },
   },
   ar: {
-    title: 'إتمام شراء تجريبي',
-    demo: 'جرّب إتمام الشراء ببيانات اتصال وتوصيل خيالية. لا تُرسل البيانات ولا تُحفظ. لن يُنشأ طلب أو دفع أو توصيل. لا تدخل بيانات بطاقة دفع.',
+    title: 'مراجعة اختياراتك',
+    demo: 'الطلب عبر الموقع غير متاح حاليًا. استخدم بيانات افتراضية لمراجعة النموذج؛ لا تُرسل البيانات ولا تُحفظ ولا تُحصّل أي مبالغ.',
     formTitle: 'بيانات الاتصال والتوصيل',
     fields: {
       fullName: 'الاسم الكامل',
@@ -77,16 +77,16 @@ export const checkoutMessages: Record<Language, CheckoutMessages> = {
       country: 'الدولة',
     },
     requiredNote: 'جميع الحقول مطلوبة باستثناء الهاتف.',
-    acknowledge: 'أفهم أن هذه تجربة ولن تتم معالجة طلب أو دفع.',
-    submit: 'تأكيد التجربة',
-    submitting: 'جارٍ التحقق من البيانات التجريبية…',
-    empty: 'حقيبتك فارغة. أضف منتجًا قبل بدء إتمام الشراء.',
-    successTitle: 'اكتملت تجربة إتمام الشراء',
+    acknowledge: 'أفهم أن مراجعة البيانات لا تعني إرسال طلب أو دفع أي مبلغ.',
+    submit: 'مراجعة البيانات',
+    submitting: 'جارٍ التحقق من بياناتك…',
+    empty: 'سلتك فارغة. أضف قطعة قبل مراجعة اختياراتك.',
+    successTitle: 'تمت مراجعة بياناتك',
     success:
-      'اجتازت بياناتك التجريبية التحقق. لم يُقدّم طلب ولم يُحصّل دفع ولم يُرتّب توصيل. حقيبتك لم تتغير. لم تُرسل بيانات الاتصال والعنوان ولم تُحفظ.',
-    summary: 'ملخص التجربة',
+      'بياناتك صحيحة. لم يُرسل طلب، ولم يُحصّل أي مبلغ أو يُرتّب توصيل. بقيت سلتك كما هي، ولم تُرسل بيانات الاتصال والعنوان أو تُحفظ.',
+    summary: 'اختياراتك',
     items: 'القطع التي تمت مراجعتها',
-    restart: 'بدء تجربة أخرى',
+    restart: 'المراجعة مرة أخرى',
     back: 'العودة إلى المتجر',
     errors: {
       name: 'أدخل اسمًا من حرفين على الأقل.',
@@ -96,13 +96,14 @@ export const checkoutMessages: Record<Language, CheckoutMessages> = {
       required: 'أكمل هذا الحقل.',
       country: 'أدخل دولة من حرفين على الأقل.',
       tooLong: 'هذه القيمة طويلة جدًا. يرجى اختصارها.',
-      demoRequired: 'أكد أنك تفهم أن هذه تجربة.',
+      demoRequired:
+        'يرجى تأكيد فهمك بأن هذه الخطوة لا ترسل طلبًا ولا تحصّل أي مبلغ.',
       invalid: 'تحقق من هذا الحقل وحاول مجددًا.',
     },
   },
   tr: {
-    title: 'Demo ödeme adımı',
-    demo: 'Kurgusal iletişim ve teslimat bilgileriyle deneyin. Hiçbir bilgi gönderilmez veya kaydedilmez. Sipariş, ödeme veya teslimat oluşturulmaz. Ödeme kartı bilgisi girmeyin.',
+    title: 'Seçiminizi inceleyin',
+    demo: 'İnternet üzerinden sipariş henüz verilemiyor. Formu örnek bilgilerle inceleyebilirsiniz; hiçbir bilgi gönderilmez veya kaydedilmez, ödeme alınmaz.',
     formTitle: 'İletişim ve teslimat bilgileri',
     fields: {
       fullName: 'Ad soyad',
@@ -115,16 +116,16 @@ export const checkoutMessages: Record<Language, CheckoutMessages> = {
     },
     requiredNote: 'Telefon dışındaki tüm alanlar zorunludur.',
     acknowledge:
-      'Bunun bir demo olduğunu ve sipariş ya da ödeme işlenmeyeceğini anlıyorum.',
-    submit: 'Demo adımını onayla',
-    submitting: 'Demo bilgileri doğrulanıyor…',
+      'Bu incelemenin sipariş oluşturmadığını ve ödeme alınmayacağını anlıyorum.',
+    submit: 'Bilgileri incele',
+    submitting: 'Bilgileriniz kontrol ediliyor…',
     empty: 'Çantanız boş. Devam etmeden önce bir ürün ekleyin.',
-    successTitle: 'Demo adımı tamamlandı',
+    successTitle: 'Bilgileriniz incelendi',
     success:
-      'Demo bilgileriniz doğrulandı. Sipariş verilmedi, ödeme alınmadı ve teslimat düzenlenmedi. Çantanız değişmedi. İletişim ve adres bilgileri gönderilmedi veya kaydedilmedi.',
-    summary: 'Demo özeti',
+      'Bilgileriniz doğrulandı. Sipariş verilmedi, ödeme alınmadı ve teslimat düzenlenmedi. Sepetiniz değişmedi; iletişim ve adres bilgileriniz gönderilmedi veya kaydedilmedi.',
+    summary: 'Seçiminiz',
     items: 'İncelenen ürün adedi',
-    restart: 'Yeni demo başlat',
+    restart: 'Yeniden incele',
     back: 'Mağazaya dön',
     errors: {
       name: 'En az iki karakterli bir ad girin.',
@@ -134,7 +135,8 @@ export const checkoutMessages: Record<Language, CheckoutMessages> = {
       required: 'Bu alanı doldurun.',
       country: 'En az iki karakterli bir ülke girin.',
       tooLong: 'Bu değer çok uzun. Lütfen kısaltın.',
-      demoRequired: 'Bunun bir demo olduğunu anladığınızı onaylayın.',
+      demoRequired:
+        'Sipariş oluşturulmayacağını ve ödeme alınmayacağını onaylayın.',
       invalid: 'Bu alanı kontrol edip tekrar deneyin.',
     },
   },

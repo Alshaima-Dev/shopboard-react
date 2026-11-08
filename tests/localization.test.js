@@ -66,6 +66,40 @@ test('all interface keys and interpolation variables exist in every language', (
   }
 })
 
+test('English dictionary keeps English copy instead of misplaced Arabic or Turkish translations', () => {
+  const expectedEnglish = {
+    signupTitle: 'Your YANINDA account',
+    signupNote:
+      'Account creation is not available yet. This form only checks your details; nothing is sent or saved.',
+    signupSubmit: 'Check details',
+    signupSuccess:
+      'Your details are valid. No account was created; nothing was sent or saved.',
+    benefitLastText: "Pieces you'll love to wear.",
+    benefitPersonal: 'Your Style, Your Way',
+    benefitPersonalText: 'Express what makes you unique.',
+    benefitCareText: 'Beautiful finds, special moments.',
+    shopTitle: 'The YANINDA collection',
+    shopDescription:
+      'Everyday favorites, thoughtful details. Discover bags, shoes, and accessories selected to complement your style.',
+    results: '{count} pieces in the collection',
+    freeShipping: 'You have reached the free-shipping threshold.',
+    awayShipping: 'Add {price} more to reach the free-shipping threshold.',
+    checkout: 'Review your bag',
+    demoNote: 'Online ordering is not available yet. No payment is collected.',
+    keepShopping: 'Explore the collection',
+    checkoutMessage: 'Your bag is ready to review. No order was placed.',
+  }
+  for (const [key, expected] of Object.entries(expectedEnglish))
+    assert.equal(messages.en[key], expected, `English copy for ${key}`)
+
+  for (const [key, value] of Object.entries(messages.en))
+    assert.doesNotMatch(
+      value,
+      /\p{Script=Arabic}|[çğıİöşüÇĞÖŞÜ]/u,
+      `Wrong-language text in messages.en.${key}`,
+    )
+})
+
 test('every product has names, descriptions, and alt text in every language', () => {
   for (const product of products) {
     for (const language of Object.keys(languages)) {

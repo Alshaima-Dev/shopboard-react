@@ -11,18 +11,23 @@ import { API_BASE_URL } from '../src/shared/api/client.ts'
 
 const response = (body) => new Response(JSON.stringify(body))
 
-test('details lookup uses the configured catalog endpoint and reuses product validation', async () => {
+test('details makes one genuine single-product request and reuses product validation', async () => {
   let calls = 0
   const result = await fetchProductById('1', {
     fetcher: async (url) => {
       calls++
-      assert.equal(url, API_BASE_URL + '/api/products')
-      return response(products)
+      assert.equal(url, API_BASE_URL + '/api/products/1')
+      return response(products[0])
     },
   })
   assert.equal(calls, 1)
   assert.deepEqual(result, { status: 'ready', product: products[0] })
-  for (const body of [[{ id: 1 }], [products[0], products[0]], {}]) {
+  for (const body of [
+    [products[0]],
+    {},
+    { ...products[0], id: 2 },
+    { ...products[0], translations: {} },
+  ]) {
     assert.deepEqual(
       await fetchProductById('1', { fetcher: async () => response(body) }),
       { status: 'error' },
@@ -32,11 +37,16 @@ test('details lookup uses the configured catalog endpoint and reuses product val
 
 test('missing products and invalid route IDs do not substitute local products', async () => {
   assert.deepEqual(
-    await fetchProductById('1', { fetcher: async () => response([]) }),
+    await fetchProductById('1', {
+      fetcher: async () =>
+        new Response('{"error":"Product not found"}', { status: 404 }),
+    }),
     { status: 'missing' },
   )
   assert.deepEqual(
-    await fetchProductById('999', { fetcher: async () => response(products) }),
+    await fetchProductById('999', {
+      fetcher: async () => new Response('', { status: 404 }),
+    }),
     { status: 'missing' },
   )
   for (const id of ['', '0', '-1', '1.5', 'abc', '1e2', '9007199254740992']) {
@@ -89,7 +99,7 @@ test('leaving a details route aborts its request and ignores a stale response', 
   )
   stop()
   assert.equal(signal.aborted, true)
-  finish(response(products))
+  finish(response(products[0]))
   await new Promise((resolve) => setImmediate(resolve))
   assert.deepEqual(states, ['loading'])
   assert.deepEqual(accepted, [])
@@ -108,7 +118,7 @@ test('details retry recovers and merging updated prices preserves catalog contro
   const states = []
   const options = {
     fetcher: async () =>
-      ++calls === 1 ? new Response('', { status: 500 }) : response([updated]),
+      ++calls === 1 ? new Response('', { status: 500 }) : response(updated),
   }
   async function run() {
     let stop

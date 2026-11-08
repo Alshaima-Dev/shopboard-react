@@ -28,7 +28,6 @@ export function CartItem({
           <button
             type="button"
             data-change={product.id}
-            data-step={-1}
             aria-label={t('decrease', { name: copy.name })}
             title={t('decrease', { name: copy.name })}
             onClick={() => changeQuantity(product.id, -1)}
@@ -46,7 +45,6 @@ export function CartItem({
           <button
             type="button"
             data-change={product.id}
-            data-step={1}
             aria-label={t('increase', { name: copy.name })}
             title={t('increase', { name: copy.name })}
             onClick={() => changeQuantity(product.id, 1)}

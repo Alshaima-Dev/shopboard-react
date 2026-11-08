@@ -1,6 +1,36 @@
 export const API_BASE_URL = 'https://shopboard-api-nu.vercel.app'
 export const DEFAULT_API_TIMEOUT_MS = 5_000
 
+export type ApiScenario = 'normal' | 'delay' | 'fail' | 'empty'
+
+export function getApiScenario(value: unknown): ApiScenario {
+  return value === 'delay' || value === 'fail' || value === 'empty'
+    ? value
+    : 'normal'
+}
+
+export const DEFAULT_API_SCENARIO = getApiScenario(
+  import.meta.env?.VITE_API_SCENARIO,
+)
+
+export function buildApiUrl(
+  endpoint: string,
+  scenario: ApiScenario = DEFAULT_API_SCENARIO,
+): string {
+  const prefixes: Record<ApiScenario, string> = {
+    normal: '',
+    delay: '/delay/3000',
+    fail: '/fail/500',
+    empty: '/empty',
+  }
+  // Compose the prefix with the endpoint, never with the URL base: a leading
+  // endpoint slash would otherwise discard /delay/3000, /fail/500, or /empty.
+  return new URL(
+    `${prefixes[scenario]}/${endpoint.replace(/^\/+/, '')}`,
+    API_BASE_URL,
+  ).href
+}
+
 export interface ApiFetcher {
   (input: string, init: RequestInit): Promise<Response>
 }
@@ -8,6 +38,7 @@ export interface ApiFetcher {
 export interface FetchJsonOptions {
   fetcher?: ApiFetcher
   timeoutMs?: number
+  scenario?: ApiScenario
 }
 
 export class ApiHttpError extends Error {
@@ -39,13 +70,14 @@ export async function fetchJson(
   {
     fetcher = globalThis.fetch,
     timeoutMs = DEFAULT_API_TIMEOUT_MS,
+    scenario = DEFAULT_API_SCENARIO,
   }: FetchJsonOptions = {},
 ): Promise<unknown> {
   const controller = new AbortController()
   const timeout = globalThis.setTimeout(() => controller.abort(), timeoutMs)
 
   try {
-    const url = new URL(endpoint, API_BASE_URL).href
+    const url = buildApiUrl(endpoint, scenario)
     const response = await fetcher(url, { signal: controller.signal })
     if (!response.ok) throw new ApiHttpError(response.status)
 

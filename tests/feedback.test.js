@@ -242,8 +242,8 @@ test('delayed, empty and failed catalog refreshes do not block cart operations o
 
 test('delayed details settle into distinct ready, missing and API-failure states', async () => {
   for (const [response, expected] of [
-    [new Response(JSON.stringify(products)), 'ready'],
-    [new Response(JSON.stringify([])), 'missing'],
+    [new Response(JSON.stringify(products[0])), 'ready'],
+    [new Response('{"error":"Product not found"}', { status: 404 }), 'missing'],
     [new Response('', { status: 503 }), 'error'],
   ]) {
     let finish, settled
@@ -272,5 +272,28 @@ test('delayed details settle into distinct ready, missing and API-failure states
     assert.deepEqual(states, ['loading', expected])
     assert.equal(accepted.length, expected === 'ready' ? 1 : 0)
     stop()
+  }
+})
+
+test('page recovery always offers a primary home link and keeps retry on every route', () => {
+  for (const language of ['en', 'ar', 'tr']) {
+    const store = createLanguageStore({ getItem: () => language, setItem() {} })
+    for (const path of ['/shop', '/about', '/products/99']) {
+      const html = renderToStaticMarkup(
+        createElement(
+          MemoryRouter,
+          { initialEntries: [path] },
+          createElement(
+            LanguageProvider,
+            { store },
+            createElement(BoundaryFallback, { scope: 'page', onRetry() {} }),
+          ),
+        ),
+      )
+      assert.match(html, /class="primary"[^>]*href="\/"/)
+      assert.ok(html.includes(feedbackMessages[language].back))
+      assert.ok(html.includes(feedbackMessages[language].retry))
+      assert.match(html, /role="alert"/)
+    }
   }
 })

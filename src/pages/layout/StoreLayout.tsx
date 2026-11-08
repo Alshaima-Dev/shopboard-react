@@ -24,12 +24,16 @@ export function StoreLayout({ notice, onSignupSuccess }: StoreLayoutProps) {
   const { language, setLanguage } = useLanguage()
   const { pathname } = useLocation()
   const main = useRef<HTMLElement>(null)
+  const previousPath = useRef(pathname)
   const [cartAttempt, retryCart] = useReducer((value: number) => value + 1, 0)
   function recoverCart() {
     document.getElementById('open-cart')?.focus()
     retryCart()
   }
   useEffect(() => {
+    // Transfer focus on navigation, never on the initial page load.
+    if (previousPath.current === pathname) return
+    previousPath.current = pathname
     main.current?.focus({ preventScroll: true })
     window.scrollTo({ top: 0, behavior: 'instant' })
   }, [pathname])

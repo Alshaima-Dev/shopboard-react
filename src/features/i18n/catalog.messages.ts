@@ -5,30 +5,41 @@ export interface CatalogMessages {
   error: string
   empty: string
   retry: string
+  reset: string
   noProducts: string
 }
 
-// Assignment-specific feedback; original translation dictionaries stay intact.
+// Customer-facing request states retain the usable collection.
 export const catalogMessages: Record<Language, CatalogMessages> = {
   en: {
-    loading: 'Refreshing products. The current collection remains available.',
-    error: 'Products could not be refreshed. Showing the saved collection.',
-    empty: 'The API returned no products. Showing the saved collection.',
+    loading: 'Refreshing the collection…',
+    error:
+      'We couldn’t refresh the collection. You can still browse your current selection.',
+    empty:
+      'There are no new pieces to show right now. Your current collection is still here.',
     retry: 'Try again',
-    noProducts: 'No products are available.',
+    reset: 'Clear filters',
+    noProducts:
+      'There are no pieces to show right now. Explore more of YANINDA.',
   },
   ar: {
-    loading: 'جارٍ تحديث المنتجات. تبقى التشكيلة الحالية متاحة.',
-    error: 'تعذّر تحديث المنتجات. يتم عرض التشكيلة المحفوظة.',
-    empty: 'لم تُرجع الخدمة أي منتجات. يتم عرض التشكيلة المحفوظة.',
+    loading: 'جارٍ تحديث التشكيلة…',
+    error: 'تعذّر تحديث التشكيلة. يمكنك متابعة تصفّح القطع المعروضة.',
+    empty:
+      'لا تتوفر قطع جديدة للعرض حاليًا. يمكنك متابعة تصفّح التشكيلة الحالية.',
     retry: 'حاول مرة أخرى',
-    noProducts: 'لا توجد منتجات متاحة.',
+    reset: 'إلغاء عوامل التصفية',
+    noProducts: 'لا تتوفر قطع للعرض حاليًا. اكتشف المزيد من عالم يانيندا.',
   },
   tr: {
-    loading: 'Ürünler yenileniyor. Mevcut koleksiyon kullanılabilir.',
-    error: 'Ürünler yenilenemedi. Kayıtlı koleksiyon gösteriliyor.',
-    empty: 'API ürün döndürmedi. Kayıtlı koleksiyon gösteriliyor.',
+    loading: 'Koleksiyon yenileniyor…',
+    error:
+      'Koleksiyon yenilenemedi. Mevcut seçkiyi incelemeye devam edebilirsiniz.',
+    empty:
+      'Şu anda gösterilecek yeni ürün yok. Mevcut koleksiyonu inceleyebilirsiniz.',
     retry: 'Tekrar dene',
-    noProducts: 'Şu anda ürün bulunmuyor.',
+    reset: 'Filtreleri temizle',
+    noProducts:
+      'Şu anda gösterilecek ürün yok. YANINDA’yı keşfetmeye devam edin.',
   },
 }

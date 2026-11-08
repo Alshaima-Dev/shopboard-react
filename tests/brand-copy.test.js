@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { messages, translate } from '../src/features/i18n/i18n.ts'
 
 // Independent approved copy: do not derive expected wording from translations.
-export const approvedCopy = {
+const approvedCopy = {
   en: [
     'STYLE FOR EVERYONE',
     'Your Style. Your Story.',
@@ -30,7 +30,7 @@ export const approvedCopy = {
   ],
 }
 
-export const outdatedCopy =
+const outdatedCopy =
   /MADE FOR YOUR EVERYDAY|A little less\.|A little better\.|Thoughtful picks for wherever life takes you|Find your everyday|Good design\. Lasting company\.|A slower kind of living\.|FEWER THINGS\. MORE MEANING\.|Make room for what matters\.|We believe a good home is built slowly|Discover your next favorite|A little better, every day\.|Good things, thoughtfully chosen\.|© 2026 ShopBoard|A demo shop, made with care\./i
 
 test('hero, promotion, announcement and footer use the exact approved copy', () => {

@@ -14,6 +14,13 @@ interface RouteMessages {
   notFoundDescription: string
   back: string
   retry: string
+  detailsTitle: string
+  detailsHelp: string
+  shippingEyebrow: string
+  shippingThreshold: string
+  shippingCurrency: string
+  shippingCurrencyDescription: string
+  shippingAvailability: string
   shippingDescription: string
   shippingDemo: string
   skip: string
@@ -21,10 +28,19 @@ interface RouteMessages {
 
 export const routeMessages: Record<Language, RouteMessages> = {
   en: {
+    detailsTitle: 'Product details',
+    detailsHelp:
+      'Discover more pieces from the collection, or return home to begin again.',
+    shippingEyebrow: 'THE FINISHING DETAILS',
+    shippingThreshold: 'A little closer to complimentary shipping',
+    shippingCurrency: 'Clear prices, one currency',
+    shippingCurrencyDescription:
+      'All prices and bag subtotals are shown in US dollars. Changing the language changes the display format, not the currency or price.',
+    shippingAvailability: 'Before you continue',
     home: 'Home',
-    shop: 'Shop',
+    shop: 'Collection',
     about: 'About YANINDA',
-    shipping: 'Shipping',
+    shipping: 'Shipping & delivery',
     signup: 'Sign up',
     pages: 'Explore YANINDA',
     loading: 'Loading…',
@@ -32,40 +48,59 @@ export const routeMessages: Record<Language, RouteMessages> = {
     missing: 'This product is not available.',
     notFound: 'Page not found',
     notFoundDescription:
-      'This address does not match a page. Continue exploring the collection.',
-    back: 'Back to shop',
+      'The page you’re looking for is no longer here. Find your next favorite from the YANINDA home page.',
+    back: 'Back to Home',
     retry: 'Try again',
     shippingDescription:
-      'The shopping bag shows how much remains before the $100 free-shipping threshold. Product prices and totals are displayed in USD.',
+      'Your bag keeps the essentials in one place: your selected pieces, subtotal, and progress toward the $100 free-shipping threshold.',
     shippingDemo:
-      'This is a demonstration storefront. Checkout does not create an order, collect payment, or arrange delivery. No delivery dates or shipping charges are promised.',
+      'Online ordering and delivery are not available yet. No order is submitted, no payment is collected, and no delivery date is reserved.',
     skip: 'Skip to main content',
   },
   ar: {
+    detailsTitle: 'تفاصيل القطعة',
+    detailsHelp:
+      'اكتشف المزيد من قطع التشكيلة أو عُد إلى الرئيسية لتبدأ من جديد.',
+    shippingEyebrow: 'تفاصيل تهمّك',
+    shippingThreshold: 'خطوة أقرب إلى الشحن المجاني',
+    shippingCurrency: 'أسعار واضحة بعملة واحدة',
+    shippingCurrencyDescription:
+      'تُعرض الأسعار والمجاميع بالدولار الأمريكي. يغيّر اختيار اللغة طريقة عرض المبالغ فقط، دون تغيير العملة أو السعر.',
+    shippingAvailability: 'قبل المتابعة',
     home: 'الرئيسية',
-    shop: 'المتجر',
+    shop: 'التشكيلة',
     about: 'عن يانيندا',
-    shipping: 'الشحن',
-    signup: 'التسجيل',
+    shipping: 'الشحن والتوصيل',
+    signup: 'الحساب',
     pages: 'استكشف يانيندا',
     loading: 'جارٍ التحميل…',
     error: 'تعذّر تحميل المنتج.',
     missing: 'هذا المنتج غير متاح.',
     notFound: 'الصفحة غير موجودة',
-    notFoundDescription: 'هذا العنوان لا يطابق أي صفحة. تابع استكشاف التشكيلة.',
-    back: 'العودة إلى المتجر',
+    notFoundDescription:
+      'الصفحة التي تبحث عنها غير متاحة. عُد إلى الرئيسية واكتشف اختيارات يانيندا.',
+    back: 'العودة إلى الرئيسية',
     retry: 'حاول مرة أخرى',
     shippingDescription:
-      'توضح حقيبة التسوق المبلغ المتبقي للوصول إلى حد الشحن المجاني البالغ 100 دولار. تُعرض أسعار المنتجات والإجماليات بالدولار الأمريكي.',
+      'كل ما تحتاج إلى مراجعته في سلتك: القطع المختارة، والمجموع الفرعي، والمبلغ المتبقي للوصول إلى حد الشحن المجاني البالغ 100 دولار أمريكي.',
     shippingDemo:
-      'هذا متجر تجريبي. لا يُنشئ إتمام الشراء طلبًا، ولا يحصّل دفعات أو يرتب توصيلًا. لا توجد مواعيد توصيل أو رسوم شحن مضمونة.',
+      'الطلب والتوصيل عبر الموقع غير متاحين حاليًا. لا يُرسل أي طلب، ولا تُحصّل أي مبالغ، ولا يُحجز موعد للتوصيل.',
     skip: 'انتقل إلى المحتوى الرئيسي',
   },
   tr: {
+    detailsTitle: 'Ürün detayları',
+    detailsHelp:
+      'Koleksiyondaki diğer parçaları keşfedin veya ana sayfadan yeniden başlayın.',
+    shippingEyebrow: 'TAMAMLAYAN DETAYLAR',
+    shippingThreshold: 'Ücretsiz kargoya bir adım daha yakın',
+    shippingCurrency: 'Net fiyatlar, tek para birimi',
+    shippingCurrencyDescription:
+      'Tüm fiyatlar ve sepet ara toplamları ABD doları cinsindedir. Dil seçimi yalnızca gösterim biçimini değiştirir; para birimi ve fiyat değişmez.',
+    shippingAvailability: 'Devam etmeden önce',
     home: 'Ana sayfa',
-    shop: 'Mağaza',
+    shop: 'Koleksiyon',
     about: 'YANINDA hakkında',
-    shipping: 'Kargo',
+    shipping: 'Kargo ve teslimat',
     signup: 'Kayıt ol',
     pages: 'YANINDA’yı keşfet',
     loading: 'Yükleniyor…',
@@ -73,13 +108,13 @@ export const routeMessages: Record<Language, RouteMessages> = {
     missing: 'Bu ürün mevcut değil.',
     notFound: 'Sayfa bulunamadı',
     notFoundDescription:
-      'Bu adres bir sayfayla eşleşmiyor. Koleksiyonu keşfetmeye devam edin.',
-    back: 'Mağazaya dön',
+      'Aradığınız sayfa şu anda mevcut değil. YANINDA ana sayfasına dönerek yeni favorilerinizi keşfedin.',
+    back: 'Ana sayfaya dön',
     retry: 'Tekrar dene',
     shippingDescription:
-      'Alışveriş çantası, 100 dolarlık ücretsiz kargo eşiğine kalan tutarı gösterir. Ürün fiyatları ve toplamlar ABD doları cinsindedir.',
+      'Seçtiğiniz ürünleri, ara toplamı ve 100 ABD doları tutarındaki ücretsiz kargo eşiğine kalan tutarı sepetinizde inceleyin.',
     shippingDemo:
-      'Bu bir demo mağazadır. Ödeme işlemi sipariş oluşturmaz, ödeme almaz veya teslimat düzenlemez. Teslimat tarihi veya kargo ücreti taahhüt edilmez.',
+      'İnternet üzerinden sipariş ve teslimat henüz kullanılamıyor. Sipariş gönderilmez, ödeme alınmaz ve teslimat tarihi ayrılmaz.',
     skip: 'Ana içeriğe geç',
   },
 }

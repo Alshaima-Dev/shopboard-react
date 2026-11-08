@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { catalogMessages } from '../src/features/i18n/catalog.messages.ts'
 
 test('all catalog request states have distinct complete translations', () => {
-  const keys = ['empty', 'error', 'loading', 'noProducts', 'retry']
+  const keys = ['empty', 'error', 'loading', 'noProducts', 'reset', 'retry']
   for (const language of ['en', 'ar', 'tr']) {
     assert.deepEqual(Object.keys(catalogMessages[language]).sort(), keys)
     assert.equal(

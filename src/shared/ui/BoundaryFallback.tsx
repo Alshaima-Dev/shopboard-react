@@ -1,8 +1,7 @@
 import { useCallback } from 'react'
-import { Link, useLocation } from 'react-router'
+import { Link } from 'react-router'
 import { useLanguage, useTranslation } from '../../features/i18n/useLanguage.ts'
 import { feedbackMessages } from '../../features/i18n/feedback.messages.ts'
-import { routeMessages } from '../../features/i18n/routes.messages.ts'
 
 export interface BoundaryFallbackProps {
   scope: 'page' | 'cart'
@@ -13,14 +12,15 @@ export function BoundaryFallback({ scope, onRetry }: BoundaryFallbackProps) {
   const { language } = useLanguage()
   const { t } = useTranslation()
   const text = feedbackMessages[language]
-  const { pathname } = useLocation()
-  const returnHome = scope === 'page' && pathname === '/shop'
   const focusHeading = useCallback(
     (heading: HTMLHeadingElement | null) => heading?.focus(),
     [],
   )
   return (
-    <section className="wrap route-page boundary-fallback" role="alert">
+    <section
+      className="wrap route-page state-page boundary-fallback"
+      role="alert"
+    >
       {scope === 'page' ? (
         <h1 tabIndex={-1} ref={focusHeading}>
           {text.pageTitle}
@@ -32,7 +32,10 @@ export function BoundaryFallback({ scope, onRetry }: BoundaryFallbackProps) {
       )}
       <p>{scope === 'page' ? text.pageError : text.cartError}</p>
       <div className="boundary-actions">
-        <button type="button" className="primary" onClick={onRetry}>
+        <Link className="primary" to="/">
+          {text.back}
+        </Link>
+        <button type="button" className="secondary" onClick={onRetry}>
           {text.retry}
         </button>
         {scope === 'page' && (
@@ -44,13 +47,11 @@ export function BoundaryFallback({ scope, onRetry }: BoundaryFallbackProps) {
             {text.reload}
           </button>
         )}
-        <Link to={scope === 'cart' ? '/checkout' : returnHome ? '/' : '/shop'}>
-          {scope === 'cart'
-            ? t('checkout')
-            : returnHome
-              ? routeMessages[language].home
-              : text.back}
-        </Link>
+        {scope === 'cart' && (
+          <Link className="secondary" to="/checkout">
+            {t('checkout')}
+          </Link>
+        )}
       </div>
     </section>
   )

@@ -6,10 +6,13 @@ export function NotFoundPage() {
   const { language } = useLanguage()
   const text = routeMessages[language]
   return (
-    <section className="wrap route-page">
+    <section className="wrap route-page state-page">
+      <span className="eyebrow" aria-hidden="true">
+        404 / YANINDA
+      </span>
       <h1>{text.notFound}</h1>
       <p>{text.notFoundDescription}</p>
-      <Link className="primary" to="/shop">
+      <Link className="primary" to="/">
         {text.back}
       </Link>
     </section>

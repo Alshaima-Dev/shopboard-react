@@ -12,36 +12,36 @@ interface FeedbackMessages {
 
 export const feedbackMessages: Record<Language, FeedbackMessages> = {
   en: {
-    pageTitle: 'This page could not be shown',
+    pageTitle: 'Let’s find your way back',
     pageError:
-      'Try loading this page again, or continue to another page. Your saved bag is retained. Reloading may be necessary after a site update; unsaved form details will be lost.',
-    cartTitle: 'The bag dialog could not be shown',
+      'This page is temporarily unavailable. Try again or return home. Your saved bag stays with you. Reloading clears any unfinished form entries.',
+    cartTitle: 'Your bag is temporarily unavailable',
     cartError:
-      'Your bag contents are retained. Try opening the dialog again, or continue to demo checkout.',
+      'Your saved pieces are still here. Try opening your bag again, or review your selection.',
     retry: 'Try again',
     reload: 'Reload page',
-    back: 'Back to shop',
+    back: 'Back to Home',
   },
   ar: {
-    pageTitle: 'تعذّر عرض هذه الصفحة',
+    pageTitle: 'لنعد إلى ما تحب',
     pageError:
-      'حاول تحميل الصفحة مجددًا أو انتقل إلى صفحة أخرى. ستبقى حقيبتك المحفوظة. قد تحتاج إلى إعادة تحميل الموقع بعد تحديثه؛ ستفقد بيانات النموذج غير المحفوظة.',
-    cartTitle: 'تعذّر عرض نافذة الحقيبة',
+      'تعذّر عرض هذه الصفحة. حاول مجددًا أو عُد إلى الرئيسية؛ ستبقى القطع المحفوظة في سلتك. إعادة تحميل الصفحة تمسح بيانات النماذج غير المكتملة.',
+    cartTitle: 'تعذّر فتح السلة مؤقتًا',
     cartError:
-      'محتويات حقيبتك محفوظة. حاول فتح النافذة مجددًا أو تابع إلى إتمام الشراء التجريبي.',
+      'القطع المحفوظة في سلتك ما زالت موجودة. حاول فتح السلة مجددًا أو انتقل إلى مراجعتها.',
     retry: 'حاول مرة أخرى',
     reload: 'إعادة تحميل الصفحة',
-    back: 'العودة إلى المتجر',
+    back: 'العودة إلى الرئيسية',
   },
   tr: {
-    pageTitle: 'Bu sayfa gösterilemedi',
+    pageTitle: 'Yeniden keşfetmeye başlayın',
     pageError:
-      'Sayfayı yeniden yüklemeyi deneyin veya başka bir sayfaya geçin. Kayıtlı çantanız korunur. Site güncellemesinden sonra yeniden yükleme gerekebilir; kaydedilmemiş form bilgileri kaybolur.',
-    cartTitle: 'Çanta penceresi gösterilemedi',
+      'Bu sayfa şu anda görüntülenemiyor. Tekrar deneyin veya ana sayfaya dönün. Kayıtlı sepetiniz korunur. Sayfayı yeniden yüklemek tamamlanmamış form bilgilerini siler.',
+    cartTitle: 'Sepetiniz şu anda açılamıyor',
     cartError:
-      'Çantanızdaki ürünler korunur. Pencereyi yeniden açmayı deneyin veya demo ödeme adımına geçin.',
+      'Kayıtlı ürünleriniz korunuyor. Sepeti yeniden açmayı deneyin veya seçiminizi inceleyin.',
     retry: 'Tekrar dene',
     reload: 'Sayfayı yeniden yükle',
-    back: 'Mağazaya dön',
+    back: 'Ana sayfaya dön',
   },
 }

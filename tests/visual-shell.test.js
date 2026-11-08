@@ -232,7 +232,7 @@ test('demo sign-up retains native constraints and catalog starts with loading fe
   const submit = form.match(/<button\b[^>]*type="submit"[^>]*>/)?.[0]
   assert.ok(submit)
   assert.doesNotMatch(submit, /\bdisabled\b/)
-  assert.match(html, /Refreshing products/)
+  assert.match(html, /Refreshing the collection/)
   assert.doesNotMatch(html, /role="alert"|Try again/)
 })
 
@@ -414,25 +414,25 @@ test('under-$50 controls exclude exactly $50 and $50.01 and include $49.99', () 
 test('catalog renders translated loading/error/empty feedback and keeps retry connected', () => {
   const expected = {
     en: [
-      'Refreshing products',
-      'could not be refreshed',
-      'API returned no products',
+      'Refreshing the collection',
+      'couldn’t refresh the collection',
+      'There are no new pieces',
       'Try again',
-      'No products are available.',
+      'There are no pieces to show right now.',
     ],
     ar: [
-      'جارٍ تحديث المنتجات',
-      'تعذّر تحديث المنتجات',
-      'لم تُرجع الخدمة أي منتجات',
+      'جارٍ تحديث التشكيلة',
+      'تعذّر تحديث التشكيلة',
+      'لا تتوفر قطع جديدة',
       'حاول مرة أخرى',
-      'لا توجد منتجات متاحة.',
+      'لا تتوفر قطع للعرض حاليًا.',
     ],
     tr: [
-      'Ürünler yenileniyor',
-      'Ürünler yenilenemedi',
-      'API ürün döndürmedi',
+      'Koleksiyon yenileniyor',
+      'Koleksiyon yenilenemedi',
+      'Şu anda gösterilecek yeni ürün yok',
       'Tekrar dene',
-      'Şu anda ürün bulunmuyor.',
+      'Şu anda gösterilecek ürün yok.',
     ],
   }
   for (const language of ['en', 'ar', 'tr']) {

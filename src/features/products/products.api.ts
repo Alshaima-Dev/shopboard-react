@@ -12,7 +12,7 @@ import {
   fetchJson,
 } from '../../shared/api/client.ts'
 
-import type { ApiFetcher } from '../../shared/api/client.ts'
+import type { ApiFetcher, FetchJsonOptions } from '../../shared/api/client.ts'
 
 export type ProductsApiFetcher = ApiFetcher
 
@@ -26,10 +26,7 @@ export type ProductsApiResult =
   | { ok: true; products: Product[] }
   | { ok: false; error: ProductsApiError; status?: number }
 
-export interface ProductsApiOptions {
-  fetcher?: ApiFetcher
-  timeoutMs?: number
-}
+export interface ProductsApiOptions extends FetchJsonOptions {}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null
@@ -59,7 +56,7 @@ function isTranslations(
   )
 }
 
-function isProduct(value: unknown): value is Product {
+export function isProduct(value: unknown): value is Product {
   return (
     isRecord(value) &&
     typeof value.id === 'number' &&
@@ -95,11 +92,13 @@ function parseProducts(value: unknown): Product[] | undefined {
 export async function fetchProducts({
   fetcher = globalThis.fetch,
   timeoutMs = PRODUCTS_API_TIMEOUT_MS,
+  scenario,
 }: ProductsApiOptions = {}): Promise<ProductsApiResult> {
   try {
     const value = await fetchJson(PRODUCTS_API_ENDPOINT, {
       fetcher,
       timeoutMs,
+      scenario,
     })
     const products = parseProducts(value)
     return products
