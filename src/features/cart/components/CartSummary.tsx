@@ -1,5 +1,6 @@
 import type { CartController } from '../useCart.ts'
 import { useTranslation } from '../../i18n/useLanguage.ts'
+import { useNavigate } from 'react-router'
 
 export interface CartSummaryProps {
   cart: CartController
@@ -7,6 +8,7 @@ export interface CartSummaryProps {
 
 export function CartSummary({ cart }: CartSummaryProps) {
   const { t, money } = useTranslation()
+  const navigate = useNavigate()
   if (!cart.items.length)
     return (
       <button
@@ -33,7 +35,10 @@ export function CartSummary({ cart }: CartSummaryProps) {
         type="button"
         id="checkout"
         className="primary checkout"
-        onClick={cart.checkout}
+        onClick={() => {
+          cart.close()
+          navigate('/checkout')
+        }}
       >
         {t('checkout')}
       </button>

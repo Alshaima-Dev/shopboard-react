@@ -2,7 +2,11 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import { createElement } from 'react'
-import { renderToStaticMarkup } from 'react-dom/server'
+import {
+  renderToStaticMarkup as renderMarkup,
+  renderToReadableStream,
+} from 'react-dom/server'
+import { MemoryRouter, Routes, Route } from 'react-router'
 import { createServer } from 'vite'
 import { products } from '../src/features/products/products.data.ts'
 import {
@@ -22,6 +26,10 @@ import {
 } from '../src/features/i18n/i18n.ts'
 import { applyDocumentLanguage } from '../src/features/i18n/language.document.ts'
 
+function renderToStaticMarkup(node) {
+  return renderMarkup(createElement(MemoryRouter, null, node))
+}
+
 Object.defineProperty(globalThis, 'localStorage', {
   value: undefined,
   configurable: true,
@@ -29,7 +37,7 @@ Object.defineProperty(globalThis, 'localStorage', {
 
 // Vite transforms the actual TSX with the installed React plugin, without a listener.
 const server = await createServer({
-  server: { middlewareMode: true },
+  server: { middlewareMode: true, hmr: false, ws: false },
   appType: 'custom',
 })
 let html
@@ -40,6 +48,10 @@ let StorefrontPage
 let createLanguageStore
 let CartDialog
 let Toast
+let CartProvider
+let useCart
+let ProductImage
+let StoreLayout
 try {
   const { App } = await server.ssrLoadModule('/src/App.tsx')
   ;({ ProductCatalog } = await server.ssrLoadModule(
@@ -61,6 +73,21 @@ try {
     '/src/features/cart/components/CartDialog.tsx',
   ))
   ;({ Toast } = await server.ssrLoadModule('/src/shared/ui/Toast.tsx'))
+  ;({ CartProvider } = await server.ssrLoadModule(
+    '/src/features/cart/CartProvider.tsx',
+  ))
+  ;({ useCart } = await server.ssrLoadModule('/src/features/cart/useCart.ts'))
+  ;({ ProductImage } = await server.ssrLoadModule(
+    '/src/features/products/components/ProductImage.tsx',
+  ))
+  ;({ StoreLayout } = await server.ssrLoadModule(
+    '/src/pages/layout/StoreLayout.tsx',
+  ))
+  const stream = await renderToReadableStream(
+    createElement(MemoryRouter, null, createElement(App)),
+  )
+  await stream.allReady
+  await new Response(stream).text()
   html = renderToStaticMarkup(createElement(App))
 } finally {
   await server.close()
@@ -68,7 +95,10 @@ try {
 
 test('rendered shell preserves landmarks, section order, labels, and unique IDs', () => {
   for (const tag of ['header', 'nav', 'main', 'footer', 'h1']) {
-    assert.equal([...html.matchAll(new RegExp(`<${tag}\\b`, 'g'))].length, 1)
+    assert.equal(
+      [...html.matchAll(new RegExp(`<${tag}\\b`, 'g'))].length,
+      tag === 'nav' ? 2 : 1,
+    )
   }
   const sections = [
     'announcement wrap',
@@ -95,6 +125,72 @@ test('rendered shell preserves landmarks, section order, labels, and unique IDs'
   }
   assert.match(html, /type="password"[^>]*minlength="8"/i)
   assert.match(html, /<form\b[^>]*aria-describedby="signup-note"/)
+})
+
+test('CartProvider supplies one cart to sibling consumers while product details stay derived', () => {
+  let reads = 0
+  const storage = {
+    getItem() {
+      reads++
+      return '{"1":2}'
+    },
+    setItem() {},
+  }
+  const captured = []
+  function CartProbe({ catalog }) {
+    const cart = useCart(catalog)
+    captured.push(cart)
+    return createElement('span', null, cart.count)
+  }
+  const updated = products.map((product) => ({
+    ...product,
+    price: product.price + 10,
+  }))
+  renderToStaticMarkup(
+    createElement(
+      CartProvider,
+      { storage, notify() {} },
+      createElement(CartProbe, { catalog: products }),
+      createElement(CartProbe, { catalog: updated }),
+    ),
+  )
+  assert.equal(reads, 1)
+  assert.equal(captured[0].quantities, captured[1].quantities)
+  assert.equal(captured[0].addItem, captured[1].addItem)
+  assert.equal(captured[0].count, 2)
+  assert.equal(captured[1].total - captured[0].total, 20)
+  assert.equal(captured[1].items[0].price, updated[0].price)
+  assert.throws(
+    () => renderToStaticMarkup(createElement(CartProbe, { catalog: products })),
+    /within CartProvider/,
+  )
+})
+
+test('a changed image source remounts only its failure state and preserves the add-button child', () => {
+  const child = createElement('button', { type: 'button' }, 'Add')
+  const original = ProductImage({ product: products[0], children: child })
+  const product = { ...products[0], image: 'images/products/replacement.jpg' }
+  const replacement = ProductImage({ product, children: child })
+  const sameSource = ProductImage({
+    product: { ...products[0], price: 1 },
+    children: child,
+  })
+  assert.equal(original.type, replacement.type)
+  assert.equal(
+    original.props.children[0].type,
+    replacement.props.children[0].type,
+  )
+  assert.notEqual(
+    original.props.children[0].key,
+    replacement.props.children[0].key,
+  )
+  assert.equal(original.props.children[0].key, sameSource.props.children[0].key)
+  assert.equal(original.props.children[1], replacement.props.children[1])
+  assert.match(
+    renderToStaticMarkup(replacement),
+    /src="\/images\/products\/replacement.jpg"/,
+  )
+  assert.doesNotMatch(renderToStaticMarkup(replacement), /hidden=""/)
 })
 
 test('all local product cards, original images and accessible add buttons render', () => {
@@ -204,7 +300,7 @@ function controls(initialCatalog = products) {
     },
     navigate(id) {
       const link = find(StoreHeader(controller()), id)
-      assert.equal(link.props.href, '#shop')
+      assert.equal(link.props.to, '/shop')
       link.props.onClick()
     },
     render: () =>
@@ -379,6 +475,15 @@ test('catalog renders translated loading/error/empty feedback and keeps retry co
       visibleProducts: [],
     })
     assert.ok(empty.includes(escapeText(expected[language][4])))
+    const pendingEmpty = render({
+      ...base,
+      status: 'loading',
+      catalog: [],
+      visibleProducts: [],
+    })
+    assert.match(pendingEmpty, /aria-busy="true"/)
+    assert.ok(pendingEmpty.includes(escapeText(expected[language][0])))
+    assert.ok(!pendingEmpty.includes(escapeText(expected[language][4])))
     const noMatch = render({ ...base, status: 'ready', visibleProducts: [] })
     assert.ok(noMatch.includes(escapeText(messages[language].noResults)))
     assert.ok(!noMatch.includes(escapeText(expected[language][4])))
@@ -414,7 +519,31 @@ test('every bound section and accessibility attribute renders in English, Arabic
   for (const language of ['en', 'ar', 'tr']) {
     const store = createLanguageStore({ getItem: () => language, setItem() {} })
     const output = renderToStaticMarkup(
-      createElement(LanguageProvider, { store }, createElement(StorefrontPage)),
+      createElement(
+        LanguageProvider,
+        { store },
+        createElement(
+          CartProvider,
+          { notify() {} },
+          createElement(
+            Routes,
+            null,
+            createElement(
+              Route,
+              {
+                element: createElement(StoreLayout, {
+                  notice: null,
+                  onSignupSuccess() {},
+                }),
+              },
+              createElement(Route, {
+                index: true,
+                element: createElement(StorefrontPage),
+              }),
+            ),
+          ),
+        ),
+      ),
     )
     const bindings = [...output.matchAll(/data-i18n="([^"]+)"[^>]*>([^<]*)</g)]
     assert.ok(bindings.length > 30)

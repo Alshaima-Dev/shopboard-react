@@ -1,3 +1,4 @@
+import { Link, NavLink } from 'react-router'
 import { getLocalization } from '../../../features/i18n/useLanguage.ts'
 import { BrandMark } from '../../../shared/ui/BrandMark.tsx'
 import { Icon } from '../../../shared/ui/Icon.tsx'
@@ -13,6 +14,7 @@ export interface StoreHeaderProps extends Pick<
   setLanguage?: (value: unknown) => void
   count?: number
   onOpenCart?: () => void
+  catalogActive?: boolean
 }
 
 export function StoreHeader({
@@ -22,13 +24,14 @@ export function StoreHeader({
   setLanguage = () => {},
   count = 0,
   onOpenCart,
+  catalogActive = true,
 }: StoreHeaderProps) {
   const { t, money, number } = getLocalization(language)
   return (
     <header className="wrap header">
-      <a
+      <Link
         className="wordmark"
-        href="#"
+        to="/"
         data-i18n-aria="home"
         aria-label={t('home')}
       >
@@ -38,30 +41,30 @@ export function StoreHeader({
         <span className="brand-name" lang="en" dir="ltr">
           YANINDA
         </span>
-      </a>
+      </Link>
       <nav data-i18n-aria="navigation" aria-label={t('navigation')}>
-        <a
-          href="#shop"
+        <Link
+          to="/shop"
           id="shop-all"
-          className={!affordableOnly ? 'active' : undefined}
-          aria-current={!affordableOnly ? 'true' : undefined}
+          className={catalogActive && !affordableOnly ? 'active' : undefined}
+          aria-current={catalogActive && !affordableOnly ? 'true' : undefined}
           onClick={() => selectMode(false)}
           data-i18n="shopAll"
         >
           {t('shopAll')}
-        </a>
-        <a
-          href="#shop"
+        </Link>
+        <Link
+          to="/shop"
           id="affordable-products"
-          className={affordableOnly ? 'active' : undefined}
-          aria-current={affordableOnly ? 'true' : undefined}
+          className={catalogActive && affordableOnly ? 'active' : undefined}
+          aria-current={catalogActive && affordableOnly ? 'true' : undefined}
           onClick={() => selectMode(true)}
         >
           {t('underPrice', { price: money(AFFORDABLE_PRICE_LIMIT) })}
-        </a>
-        <a href="#philosophy" data-i18n="philosophy">
+        </Link>
+        <NavLink to="/about" data-i18n="philosophy">
           {t('philosophy')}
-        </a>
+        </NavLink>
       </nav>
       <div className="header-actions" dir="ltr">
         <div className="language-picker">

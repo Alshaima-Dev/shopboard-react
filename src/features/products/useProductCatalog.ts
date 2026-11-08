@@ -1,4 +1,5 @@
-import { useEffect, useReducer } from 'react'
+import { useCallback, useEffect, useReducer } from 'react'
+import type { Product } from './products.types.ts'
 import { products } from './products.data.ts'
 import { getCategories, selectProducts } from './products.logic.ts'
 import {
@@ -16,6 +17,10 @@ export function useProductCatalog() {
     createProductCatalogState,
   )
   const [request, retry] = useReducer((value: number) => value + 1, 0)
+  const updateProduct = useCallback(
+    (product: Product) => dispatch({ type: 'product', product }),
+    [],
+  )
   useEffect(
     () =>
       subscribeToCatalogRefresh(
@@ -32,6 +37,7 @@ export function useProductCatalog() {
     ...state,
     language,
     retry,
+    updateProduct,
     categories: getCategories(state.catalog),
     visibleProducts: selectProducts(state.catalog, { ...state, language }),
     setQuery: (value: string) => dispatch({ type: 'query', value }),

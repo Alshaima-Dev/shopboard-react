@@ -12,6 +12,7 @@ export interface ProductCatalogState {
 }
 
 export type ProductCatalogAction =
+  | { type: 'product'; product: Product }
   | { type: 'status'; status: CatalogStatus }
   | { type: 'catalog'; catalog: readonly Product[] }
   | { type: 'query'; value: string }
@@ -37,6 +38,13 @@ export function productCatalogReducer(
   action: ProductCatalogAction,
 ): ProductCatalogState {
   switch (action.type) {
+    case 'product':
+      return {
+        ...state,
+        catalog: state.catalog.map((product) =>
+          product.id === action.product.id ? action.product : product,
+        ),
+      }
     case 'status':
       return { ...state, status: action.status }
     case 'catalog':

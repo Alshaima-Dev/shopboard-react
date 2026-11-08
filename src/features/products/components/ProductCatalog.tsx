@@ -107,12 +107,17 @@ export function ProductCatalog({ catalog, onAdd }: ProductCatalogProps) {
           ? ' · ' + t('underPrice', { price: money(AFFORDABLE_PRICE_LIMIT) })
           : ''}
       </p>
-      <div id="products" className="product-grid">
+      <div
+        id="products"
+        className="product-grid"
+        aria-busy={catalog.status === 'loading'}
+      >
         {catalog.visibleProducts.length ? (
           catalog.visibleProducts.map((product) => (
             <ProductCard key={product.id} product={product} onAdd={onAdd} />
           ))
-        ) : (
+        ) : catalog.status === 'loading' &&
+          catalog.catalog.length === 0 ? null : (
           <p className="empty">
             {catalog.catalog.length ? t('noResults') : catalogText.noProducts}
           </p>

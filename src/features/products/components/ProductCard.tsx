@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import { useTranslation } from '../../i18n/useLanguage.ts'
 import type { Product } from '../products.types.ts'
 import { Icon } from '../../../shared/ui/Icon.tsx'
@@ -27,7 +28,9 @@ export function ProductCard({ product, onAdd }: ProductCardProps) {
         </button>
       </ProductImage>
       <div className="product-title">
-        <h3>{copy.name}</h3>
+        <h3>
+          <Link to={`/products/${product.id}`}>{copy.name}</Link>
+        </h3>
         <bdi className="product-price">{money(product.price)}</bdi>
       </div>
       <p className="product-category">{t(product.category)}</p>

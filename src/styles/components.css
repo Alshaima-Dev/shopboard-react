@@ -1,0 +1,16 @@
+/* shadcn utilities only: intentionally omit Tailwind Preflight. */
+@import 'tailwindcss/theme.css' layer(theme);
+@tailwind utilities source(none);
+@source '../shared/ui/shadcn';
+
+@theme inline {
+  --color-primary: var(--brand-primary);
+  --color-primary-foreground: var(--brand-background);
+  --color-background: var(--brand-background);
+  --color-foreground: var(--brand-text);
+  --color-input: var(--brand-border);
+  --color-accent: var(--brand-soft);
+  --color-muted-foreground: var(--brand-detail);
+  --color-ring: var(--brand-primary);
+  --color-destructive: var(--brand-primary);
+}
